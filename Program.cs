@@ -9,6 +9,27 @@ namespace HashChecker
 {
     class Program
     {
+        /*
+         * 
+Add this code to rpcblockchain.cpp around line 110
+
+Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool fPrintTransactionDetail)
+{
+    Object result;
+//BEGIN ADDED CODE
+char buffer [161];
+buffer[159] = 0;
+unsigned char *data=(unsigned char*)&(block.nVersion);
+for(int j = 0; j < 80; j++)
+    sprintf(&buffer[2*j], "%02X", data[j]);
+std::string str(buffer);
+
+    result.push_back(Pair("raw", str)); 
+//END ADDED CODE
+    result.push_back(Pair("hash", block.GetHash().GetHex()));
+    int confirmations = -1;
+
+         * */
         public static byte[] StringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
