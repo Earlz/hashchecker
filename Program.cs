@@ -46,9 +46,13 @@ std::string str(buffer);
                 // data = data.Reverse().ToArray();
                 if (data.Count() != 80) throw new ApplicationException();
                 var scrypted = SCrypt.DeriveKey(data, data, 1024, 1, 1, 32);
-                foreach (var b in scrypted)
+                //scrypted = scrypted.Reverse().ToArray();
+                for(int i=32;i>=3;i-=4)
                 {
-                    Console.Write(b.ToString("X2"));
+                    //var tmp = scrypted.Reverse().ToArray();
+                    var tmp = new byte[4] { scrypted[i - 4], scrypted[i - 3], scrypted[i - 2], scrypted[i - 1] };
+                    Console.Write(BitConverter.ToUInt32(tmp, 0).ToString("X8"));
+                    //Console.Write(b.ToString("X2"));
                 }
                 Console.WriteLine();
                 Console.ReadKey();
